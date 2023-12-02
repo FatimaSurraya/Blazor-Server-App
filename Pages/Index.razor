@@ -1,0 +1,25 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+@if (showDetails)
+{
+    <div>
+        <h3>User Details</h3>
+        <p>Name: @userName</p>
+        <p>Email: @userEmail</p>
+    </div>
+}
+
+<button class="btn btn-primary" @onclick="ToggleDetails">Toggle Details</button>
+
+@code {
+    bool showDetails = false;
+    string userName = "Fatima Surraya";
+    string userEmail = "fatimamughal651@gmail.com";
+
+    void ToggleDetails()
+    {
+        showDetails = !showDetails;
+    }
+}
