@@ -11,7 +11,14 @@
         <p>name: @GetUsername()</p>
     </div>
 }
-
+@if (TestNum == 1)
+{
+    <p> Num is 1</p>
+}
+else
+{
+    <p> Num is not 1</p>
+}
 <button class="btn btn-primary" @onclick="ToggleDetails">Toggle Details</button>
 <button class="btn btn-primary" @onclick="ChangeName">Change Name</button>
 
@@ -28,6 +35,7 @@
     {
         userName = "Princess";
     }
+    private int TestNum = 1;
 
     void ToggleDetails()
     {
