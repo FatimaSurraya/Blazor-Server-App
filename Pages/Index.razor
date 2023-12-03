@@ -19,6 +19,18 @@ else
 {
     <p> Num is not 1</p>
 }
+
+@*
+@for ( int i=0; i<10; i++)
+{
+    <p> Value of i: @i</p>
+}*@
+
+@foreach (var name in names)
+{
+    <p>@((MarkupString)name)</p>
+}
+
 <button class="btn btn-primary" @onclick="ToggleDetails">Toggle Details</button>
 <button class="btn btn-primary" @onclick="ChangeName">Change Name</button>
 
@@ -36,6 +48,24 @@ else
         userName = "Princess";
     }
     private int TestNum = 1;
+
+    private List<string>names; 
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        names = new List<string>
+        {
+            "<b>value 01</br>",
+            "value 02",
+            "value 03",
+            "value 04",
+            "value 05",
+            "value 06",
+            "value 07",
+            "value 08",
+        };
+    }
 
     void ToggleDetails()
     {
