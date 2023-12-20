@@ -1,0 +1,128 @@
+﻿@page "/"
+@page "/budget"
+@using FS.Data
+@inject BudgetBookServices budgetbookservices
+
+
+<h3>Budget</h3>
+
+<form>
+	<div class="row">
+		<div class="column">
+			<label class="control-label"> Description </label>
+			<input class="form-control" @bind="@newEntry.Description" />
+			
+		</div>
+		<div class="col">
+			<label class="control-label">Amount</label>
+			<input class="form-control" @bind="@newEntry.Amount" />
+		
+		</div>
+		<div class="row mt-2">
+			<div class="col">
+				<button class="btn btn-primary" @onclick="@CreateEntry">Add</button>
+			</div>
+		</div>
+	</div>
+</form>
+<hr />
+
+<table class="table table-striped table-bordered">
+
+	<thead class="table-dark">
+		<tr>
+			<th>
+				Description
+			</th>
+			<th>
+				Amount
+			</th>
+			<th>
+				Edit
+
+			</th>
+			<th>
+				Delete
+
+			</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@foreach (Entry entry in allEntries)
+		{
+			<tr>
+				<td>
+					@entry.Description
+				</td>
+				<td>
+					$@entry.Amount
+				</td>
+				<td>
+					<button class="btn btn-info" @onclick="@(() => EditEntry(entry))">Edit</button>
+				</td>
+				<td>
+					<button class="btn btn-danger" @onclick="@(() => DeleteEntry(entry))">Delete</button>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+@code {
+    List<Entry> allEntries = new List<Entry>();
+
+    Entry newEntry = new Entry();
+    private Entry selectedEntry = new Entry();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        allEntries = budgetbookservices.GetAllEntries();
+    }
+
+    protected async void CreateEntry()
+    {
+        if (!string.IsNullOrWhiteSpace(newEntry.Description) && newEntry.Amount != null)
+        {
+            // Use await for asynchronous operations only, not for synchronous methods
+            bool success = await budgetbookservices.AddEntry(newEntry);
+            if (success)
+			{
+				// Clear the form after successful entry creation
+				newEntry = new Entry();
+			}
+		}
+		else
+		{
+			// Handle validation or notify the user about the fields being empty
+		}
+	}
+	
+
+	protected void EditEntry(Entry entry)
+	{
+		selectedEntry = entry;
+		// Populate the form fields with the selected entry's values for editing
+		newEntry = new Entry
+			{
+				Id = selectedEntry.Id,
+				Amount = selectedEntry.Amount,
+				Description = selectedEntry.Description
+			};
+	}
+
+
+	protected void DeleteEntry(Entry entry)
+	{
+		bool deleted = budgetbookservices.DeleteEntry(entry);
+		if (deleted)
+		{
+			allEntries.Remove(entry);
+		}
+	}
+	
+
+
+}
