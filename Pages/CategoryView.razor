@@ -1,0 +1,54 @@
+﻿@page "/categories";
+@using FS.Shared.Services;
+@using FS.Data;
+@inject ICategoryService CategoryService
+
+<h3>Categories</h3>
+
+<!-- Display categories -->
+@if (Categories != null)
+{
+    <ul>
+        @foreach (var category in Categories)
+        {
+            <li>
+                @category.Name
+                <button @onclick="() => DeleteCategory(category.Id)">Delete</button>
+            </li>
+        }
+    </ul>
+}
+
+<!-- Add category form -->
+<form @onsubmit="AddCategory">
+    <input type="text" @bind="newCategoryName" />
+    <button type="submit">Add Category</button>
+</form>
+
+@code {
+    List<Category> Categories { get; set; }
+    string newCategoryName { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Categories = await CategoryService.GetCategories();
+    }
+
+    private async Task AddCategory()
+    {
+        if (!string.IsNullOrWhiteSpace(newCategoryName))
+        {
+            var category = new Category { Name = newCategoryName };
+            await CategoryService.AddCategory(category);
+            Categories = await CategoryService.GetCategories();
+            newCategoryName = string.Empty; // Clear input after adding category
+        }
+    }
+
+    private async Task DeleteCategory(int categoryId)
+    {
+        await CategoryService.DeleteCategory(categoryId);
+        Categories = await CategoryService.GetCategories();
+    }
+}
+

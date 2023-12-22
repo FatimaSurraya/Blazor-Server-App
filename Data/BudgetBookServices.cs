@@ -1,6 +1,6 @@
 ﻿namespace FS.Data
 {
-	public class BudgetBookServices
+    public class BudgetBookServices
 	{
 		private static List<Entry> mockdb = new List<Entry>();
 
