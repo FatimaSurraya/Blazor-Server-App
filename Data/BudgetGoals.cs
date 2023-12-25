@@ -4,6 +4,7 @@ namespace FS.Data
 {
     public class BudgetGoals
     {
+        [Key]
         public int Id { get; set; }
         public string Category { get; set; }
         public decimal Amount { get; set; }
