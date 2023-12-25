@@ -4,6 +4,7 @@ namespace FS.Data
 {
 	public class Entry
 	{
+		[Key]
 		public int Id { get; set; }
 
 		[Required(ErrorMessage = "Amount is required")]

@@ -12,14 +12,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<BudgetBookServices>();
+builder.Services.AddScoped<BudgetBookServices>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<IBudgetGoalService, BudgetGoalService>();
-var app = builder.Build();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer("Data Source=FATIMA-MUGHAL\\SQLEXPRESS;Initial Catalog=Budget; Integrated Security=True;MultipleActiveResultSets=true;TrustServerCertificate=True;");
 });
+var app = builder.Build();
 
 //builder.Services.AddDbContext<IMSContext>(options =>
 //{

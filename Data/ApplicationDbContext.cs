@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace FS.Data
 {
@@ -11,9 +12,8 @@ namespace FS.Data
         public ApplicationDbContext(IConfiguration configuration)
         {
             Configuration= configuration;
-        }
-        protected override void OnConfiguring (DbContextOptionsBuilder options)
-           
+        }   
+        protected override void OnConfiguring (DbContextOptionsBuilder options)        
         {
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
         }
