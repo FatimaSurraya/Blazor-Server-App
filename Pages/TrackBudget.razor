@@ -1,0 +1,82 @@
+﻿@page "/trackbudget"
+@inject IJSRuntime JSRuntime
+
+<div class="row">
+    <div class="col-4 left-container">
+        <div class="month-container">
+            <div class="header fs-white">Your Budget</div>
+            <div id="current-month" class="sub-text fs-white"></div>
+            <div class="budget-container p-2 mt-4">
+                <span id="month-budget" class="month-amount">₹ 0</span>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="expense-chart"></canvas>
+        </div>
+    </div>
+    <div class="col-8 right-container">
+        <div class="calc-container">
+            <div class="header fs-dark-grey">Track Your Budget</div>
+            <div class="dropdown open">
+                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    Expense Type
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" @onclick="@(SetExpenseType('savings'))">Savings</a>
+                    <a class="dropdown-item" @onclick="@(SetExpenseType('expense'))">Expense</a>
+                    <a class="dropdown-item" @onclick="@(SetExpenseType('investment'))">Investment</a>
+                </div>
+
+
+
+
+            </div>
+            <div class="mt-3 tracking-text text-capitalize sub-text bottom-border">Tracking Savings 💰</div>
+
+            <div class="row mt-4">
+                <div class="col-7">
+                    <input class="form-control input-expense-description" type="text" placeholder="Description">
+                </div>
+                <div class="col-4">
+                    <input class="form-control input-expense-value" type="number" placeholder="Value">
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn btn-success btn-submit-expense" @onclick="AddExpense">&check;</button>
+                </div>
+            </div>
+            <div class="expense-list mt-4">
+                <!-- Expense list content -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string ExpenseType = "savings"; // Initial expense type
+
+    private async Task SetExpenseType(string type)
+    {
+        ExpenseType = type;
+        await JSRuntime.InvokeVoidAsync("setExpenseType", type);
+        // Other logic related to changing expense type if needed
+    }
+
+    private async Task AddExpense()
+    {
+        var description = await JSRuntime.InvokeAsync<string>("getDescription");
+        var value = await JSRuntime.InvokeAsync<int>("getValue");
+
+        // Logic to handle adding expenses
+        // You might need to interact with a service or manage data here
+        // Use C# instead of JavaScript to manipulate data or UI elements
+    }
+
+    private async Task SetExpenseType(string type)
+    {
+        ExpenseType = type;
+        await JSRuntime.InvokeVoidAsync("setExpenseType", type);
+        // Other logic related to changing expense type if needed
+    }
+}
