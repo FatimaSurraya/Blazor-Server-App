@@ -24,10 +24,11 @@
                     Expense Type
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" @onclick="@(SetExpenseType('savings'))">Savings</a>
-                    <a class="dropdown-item" @onclick="@(SetExpenseType('expense'))">Expense</a>
-                    <a class="dropdown-item" @onclick="@(SetExpenseType('investment'))">Investment</a>
+                    <a class="dropdown-item" @onclick="@(e => SetExpenseType("savings"))">Savings</a>
+                    <a class="dropdown-item" @onclick="@(e => SetExpenseType("expense"))">Expense</a>
+                    <a class="dropdown-item" @onclick="@(e => SetExpenseType("investment"))">Investment</a>
                 </div>
+
 
 
 
@@ -73,10 +74,5 @@
         // Use C# instead of JavaScript to manipulate data or UI elements
     }
 
-    private async Task SetExpenseType(string type)
-    {
-        ExpenseType = type;
-        await JSRuntime.InvokeVoidAsync("setExpenseType", type);
-        // Other logic related to changing expense type if needed
-    }
+   
 }
